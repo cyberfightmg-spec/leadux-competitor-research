@@ -1,18 +1,28 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Source",
+  "$id": "https://leaduxai.id/schemas/source.schema.json",
+  "title": "LeadUX Research Source",
   "type": "object",
-  "required": ["id", "url", "source_type", "retrieved_at"],
+  "required": ["source_id", "url", "source_type", "source_tier", "observed_at", "access_status"],
   "properties": {
-    "id": {"type": "string"},
-    "url": {"type": "string"},
+    "source_id": {"type": "string", "minLength": 1},
+    "url": {"type": "string", "format": "uri"},
     "title": {"type": ["string", "null"]},
-    "source_type": {"type": "string"},
-    "quality_tier": {"enum": ["A", "B", "C", "D", "E", "F"]},
-    "source_family": {"type": ["string", "null"]},
+    "publisher": {"type": ["string", "null"]},
+    "source_type": {
+      "enum": ["official", "registry", "company", "documentation", "pricing", "review", "community", "media", "dataset", "marketplace", "map", "social", "other"]
+    },
+    "source_tier": {"enum": ["A", "B", "C", "D", "E", "F"]},
     "published_at": {"type": ["string", "null"]},
-    "retrieved_at": {"type": "string"},
-    "access_status": {"enum": ["OK", "PROTECTED", "UNAVAILABLE", "STALE", "AMBIGUOUS"]},
+    "observed_at": {"type": "string", "minLength": 8},
+    "geography": {"type": "array", "items": {"type": "string"}},
+    "language": {"type": ["string", "null"]},
+    "independence_group": {"type": ["string", "null"]},
+    "origin_source_id": {"type": ["string", "null"]},
+    "access_status": {"enum": ["ok", "partial", "protected", "unavailable"]},
+    "content_hash": {"type": ["string", "null"]},
+    "raw_artifact": {"type": ["string", "null"]},
     "notes": {"type": ["string", "null"]}
-  }
+  },
+  "additionalProperties": true
 }
