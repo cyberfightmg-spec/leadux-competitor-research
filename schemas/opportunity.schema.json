@@ -1,17 +1,25 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Opportunity",
+  "$id": "https://leaduxai.id/schemas/opportunity.schema.json",
+  "title": "LeadUX Market Opportunity",
   "type": "object",
-  "required": ["id", "text", "demand_claim_ids", "coverage_claim_ids", "entry_claim_ids", "confidence"],
+  "required": ["opportunity_id", "title", "type", "demand_claim_ids", "coverage_claim_ids", "entry_claim_ids", "confidence"],
   "properties": {
-    "id": {"type": "string"},
-    "text": {"type": "string"},
-    "type": {"type": "string"},
+    "opportunity_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "type": {"enum": ["audience", "workflow", "pricing", "business_model", "product", "channel", "geography", "positioning", "other"]},
+    "target_segment": {"type": ["string", "null"]},
+    "jtbd": {"type": ["string", "null"]},
     "demand_claim_ids": {"type": "array", "items": {"type": "string"}},
     "coverage_claim_ids": {"type": "array", "items": {"type": "string"}},
     "entry_claim_ids": {"type": "array", "items": {"type": "string"}},
-    "risk_claim_ids": {"type": "array", "items": {"type": "string"}},
+    "contradicting_claim_ids": {"type": "array", "items": {"type": "string"}},
+    "risks": {"type": "array", "items": {"type": "string"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}},
     "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
-    "validation_experiment": {"type": "string"}
-  }
+    "red_team_status": {"enum": ["NOT_RUN", "SURVIVES", "NARROWED", "INVALIDATED"]},
+    "validation_test": {"type": ["string", "null"]},
+    "notes": {"type": ["string", "null"]}
+  },
+  "additionalProperties": true
 }
