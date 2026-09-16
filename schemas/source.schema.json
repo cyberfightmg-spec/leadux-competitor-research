@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Source",
+  "type": "object",
+  "required": ["id", "url", "source_type", "retrieved_at"],
+  "properties": {
+    "id": {"type": "string"},
+    "url": {"type": "string"},
+    "title": {"type": ["string", "null"]},
+    "source_type": {"type": "string"},
+    "quality_tier": {"enum": ["A", "B", "C", "D", "E", "F"]},
+    "source_family": {"type": ["string", "null"]},
+    "published_at": {"type": ["string", "null"]},
+    "retrieved_at": {"type": "string"},
+    "access_status": {"enum": ["OK", "PROTECTED", "UNAVAILABLE", "STALE", "AMBIGUOUS"]},
+    "notes": {"type": ["string", "null"]}
+  }
+}
