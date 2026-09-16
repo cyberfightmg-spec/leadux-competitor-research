@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Insight",
+  "type": "object",
+  "required": ["id", "text", "supporting_claim_ids", "confidence"],
+  "properties": {
+    "id": {"type": "string"},
+    "text": {"type": "string"},
+    "supporting_claim_ids": {"type": "array", "items": {"type": "string"}},
+    "contradicting_claim_ids": {"type": "array", "items": {"type": "string"}},
+    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]}
+  }
+}
