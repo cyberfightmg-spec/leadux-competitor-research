@@ -1,16 +1,35 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Competitor",
+  "$id": "https://leaduxai.id/schemas/competitor.schema.json",
+  "title": "LeadUX Competitor",
   "type": "object",
-  "required": ["id", "name", "taxonomy", "confidence"],
+  "required": ["entity_id", "name", "type", "tier", "relevance_score", "classification_confidence"],
   "properties": {
-    "id": {"type": "string"},
-    "name": {"type": "string"},
-    "domain": {"type": ["string", "null"]},
-    "taxonomy": {"enum": ["DIRECT", "INDIRECT", "SUBSTITUTE", "DIY", "ADJACENT"]},
-    "classification_reason": {"type": "string"},
-    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "entity_id": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "brand_name": {"type": ["string", "null"]},
+    "legal_name": {"type": ["string", "null"]},
+    "official_url": {"type": ["string", "null"]},
+    "type": {"enum": ["DIRECT", "INDIRECT", "SUBSTITUTE", "DIY", "ADJACENT"]},
     "tier": {"enum": ["A", "B", "C"]},
-    "claim_ids": {"type": "array", "items": {"type": "string"}}
-  }
+    "relevance_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "classification_confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "classification_reason": {"type": ["string", "null"]},
+    "geography": {"type": "array", "items": {"type": "string"}},
+    "target_segments": {"type": "array", "items": {"type": "string"}},
+    "jtbd": {"type": "array", "items": {"type": "string"}},
+    "identity": {
+      "type": "object",
+      "properties": {
+        "inn": {"type": ["string", "null"]},
+        "ogrn": {"type": ["string", "null"]},
+        "region": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "source_ids": {"type": "array", "items": {"type": "string"}},
+    "status": {"enum": ["active", "inactive", "uncertain", "not_checked"]},
+    "notes": {"type": ["string", "null"]}
+  },
+  "additionalProperties": true
 }
