@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Opportunity",
+  "type": "object",
+  "required": ["id", "text", "demand_claim_ids", "coverage_claim_ids", "entry_claim_ids", "confidence"],
+  "properties": {
+    "id": {"type": "string"},
+    "text": {"type": "string"},
+    "type": {"type": "string"},
+    "demand_claim_ids": {"type": "array", "items": {"type": "string"}},
+    "coverage_claim_ids": {"type": "array", "items": {"type": "string"}},
+    "entry_claim_ids": {"type": "array", "items": {"type": "string"}},
+    "risk_claim_ids": {"type": "array", "items": {"type": "string"}},
+    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "validation_experiment": {"type": "string"}
+  }
+}
