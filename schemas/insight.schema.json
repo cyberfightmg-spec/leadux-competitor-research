@@ -1,13 +1,21 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Insight",
+  "$id": "https://leaduxai.id/schemas/insight.schema.json",
+  "title": "LeadUX Research Insight",
   "type": "object",
-  "required": ["id", "text", "supporting_claim_ids", "confidence"],
+  "required": ["insight_id", "text", "supporting_claim_ids", "contradicting_claim_ids", "confidence"],
   "properties": {
-    "id": {"type": "string"},
-    "text": {"type": "string"},
+    "insight_id": {"type": "string", "minLength": 1},
+    "text": {"type": "string", "minLength": 1},
+    "dimension": {"type": ["string", "null"]},
+    "entity_ids": {"type": "array", "items": {"type": "string"}},
     "supporting_claim_ids": {"type": "array", "items": {"type": "string"}},
     "contradicting_claim_ids": {"type": "array", "items": {"type": "string"}},
-    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]}
-  }
+    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "alternative_explanations": {"type": "array", "items": {"type": "string"}},
+    "decision_impact": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "verification_required": {"type": "boolean"},
+    "notes": {"type": ["string", "null"]}
+  },
+  "additionalProperties": true
 }
