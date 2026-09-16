@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CompetitorResearchReport",
+  "type": "object",
+  "required": ["scope", "landscape", "competitors", "insights", "data_gaps"],
+  "properties": {
+    "scope": {"type": "object"},
+    "research_date": {"type": "string"},
+    "landscape": {"type": "object"},
+    "competitors": {"type": "array"},
+    "insights": {"type": "array"},
+    "opportunities": {"type": "array"},
+    "where_not_to_compete": {"type": "array"},
+    "contradictions": {"type": "array"},
+    "data_gaps": {"type": "array"},
+    "next_validation": {"type": "array"},
+    "source_ids": {"type": "array", "items": {"type": "string"}}
+  }
+}
