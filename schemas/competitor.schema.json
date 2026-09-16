@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Competitor",
+  "type": "object",
+  "required": ["id", "name", "taxonomy", "confidence"],
+  "properties": {
+    "id": {"type": "string"},
+    "name": {"type": "string"},
+    "domain": {"type": ["string", "null"]},
+    "taxonomy": {"enum": ["DIRECT", "INDIRECT", "SUBSTITUTE", "DIY", "ADJACENT"]},
+    "classification_reason": {"type": "string"},
+    "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+    "tier": {"enum": ["A", "B", "C"]},
+    "claim_ids": {"type": "array", "items": {"type": "string"}}
+  }
+}
