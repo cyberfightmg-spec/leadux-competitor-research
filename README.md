@@ -2,118 +2,143 @@
 
 **Open-source Agent Skills for evidence-based competitor and market intelligence.**
 
-Built by **LeadUX AI** so an AI agent can move beyond generic SWOT templates and run a structured, source-backed competitor investigation: discover the real competitive set, compare positioning and pricing, mine customer language, detect strategic signals, find whitespace, verify contradictions, and explain every important conclusion with evidence.
+Give this repository to an AI agent, ask it to study `SKILL.md` and `AGENTS.md`, and use the modular skills to run a structured competitor investigation instead of a generic SWOT summary.
 
-> **Core rule:** no source → no fact. No data → `UNKNOWN`, not invention.
+> **Core rule:** no source → no fact. Missing data → `UNKNOWN`, not invention.
 
-## Follow LeadUX AI
-
-Research updates, AI automation cases, new skills and practical experiments are published in the LeadUX AI Telegram channel:
+Built by **Viacheslav Bushmakin / LeadUX AI**.
 
 **Telegram:** [@leadux_ai](https://t.me/leadux_ai)  
 **Website:** [leaduxai.id](https://leaduxai.id/)
 
-Created by **Viacheslav Bushmakin / LeadUX AI**.
+---
+
+## v0.2.0 — Production Research Layer
+
+Version 0.2 adds the operational layer required for deeper real-world research:
+
+- multi-wave search strategy;
+- capability detection and graceful fallbacks;
+- shared structured output contract;
+- stronger Evidence Protocol;
+- source independence and contradiction handling;
+- explicit quality gates;
+- production-level planner/discovery/profiling skills;
+- stronger product, pricing, customer, VOC, GTM and strategic-signal skills;
+- false-whitespace testing;
+- mandatory evidence verification and red team for deep research;
+- machine-readable research schemas;
+- **Russia Source Pack** for Russia-focused research;
+- ready-to-use Deep Russia prompt.
+
+See [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
-## What this repository gives an AI agent
+# What this repository is
 
-This repository is designed to be shared directly with an AI agent. The agent should first read the root `SKILL.md` and `AGENTS.md`, then load only the skills required for the user's task.
+This is a modular research methodology for AI agents.
 
-It can investigate:
+It helps an agent investigate:
 
-- direct, indirect, substitute, DIY and adjacent competitors;
-- positioning, category claims and target segments;
-- product capabilities, maturity and differentiation;
-- pricing, packaging, value metrics and pricing changes;
-- customer pains, praise, objections and switching reasons;
-- Voice of Customer (VOC) across public sources;
-- GTM, content, distribution and channel signals;
-- product velocity, hiring and strategic changes;
-- competitive whitespace and underserved segments;
-- contradictions, source independence and evidence quality;
-- confidence, assumptions and data gaps.
+- direct competitors;
+- indirect competitors;
+- substitutes;
+- DIY/manual alternatives;
+- adjacent solutions;
+- positioning;
+- target segments and JTBD;
+- product/workflow differences;
+- pricing and packaging;
+- customer pains and objections;
+- Voice of Customer;
+- GTM and distribution;
+- strategic signals;
+- market whitespace;
+- contradictions;
+- evidence quality;
+- risks and counter-arguments.
 
-## What this is not
+The intended reasoning chain is:
+
+```text
+SOURCE
+  ↓
+CLAIM
+  ↓
+INSIGHT
+  ↓
+STRATEGIC CONCLUSION
+  ↓
+RECOMMENDATION
+```
+
+The agent should be able to show why it reached an important conclusion.
+
+---
+
+# What this repository is NOT
+
+It is not:
 
 - a one-shot mega-prompt;
-- a SWOT template;
-- a tool that treats search visibility as market leadership;
-- a system that invents revenue, CAC, churn or conversion data;
-- a scraper that bypasses paywalls, CAPTCHAs or access controls;
-- a claim that a channel, feature or competitor does not exist just because one search failed.
+- a generic SWOT generator;
+- a tool that treats search ranking as market share;
+- a system that invents revenue, CAC, churn or customer counts;
+- a crawler designed to bypass CAPTCHA/paywalls/authentication;
+- a workflow that treats one bad review as a market-wide pain;
+- a workflow that declares a competitor/feature/channel absent after one failed search.
 
 ---
 
 # Quick Start
 
-Give this repository URL to an AI agent:
+Give your AI agent this repository:
 
 ```text
 https://github.com/cyberfightmg-spec/leadux-competitor-research
 ```
 
-Then ask it to study the repository before starting research.
-
-### Русский пример
+Then ask:
 
 ```text
 Изучи репозиторий:
 https://github.com/cyberfightmg-spec/leadux-competitor-research
 
-Сначала прочитай корневые SKILL.md и AGENTS.md.
-Далее используй только те skills, которые нужны для задачи.
+Сначала прочитай SKILL.md и AGENTS.md.
+Далее используй только нужные skills.
 
 Проведи глубокое исследование конкурентов в нише:
-AI-автоматизация автосервисов в России.
+[НИША]
 
-Цель:
-понять реальную конкурентную картину, цены, позиционирование,
-продуктовые различия, боли клиентов, VOC, GTM, стратегические сигналы
-и найти подтверждённые рыночные пробелы.
+География:
+[СТРАНА]
 
-Используй актуальные публичные источники.
 Не придумывай отсутствующие данные.
-Классифицируй существенные утверждения как
+Все существенные выводы подтверждай источниками.
+Классифицируй важные утверждения как
 FACT / ESTIMATE / HYPOTHESIS / ASSUMPTION / NOT_FOUND.
 
-Перед финальными выводами обязательно выполни:
+Перед финальным выводом обязательно выполни:
 contradiction-check → evidence-verification → red-team.
-
-Для каждого важного вывода покажи источники, дату наблюдения,
-уровень уверенности и ограничения данных.
 ```
 
-### English example
+For Russia-focused research, use the ready prompt:
 
-```text
-Study this repository first:
-https://github.com/cyberfightmg-spec/leadux-competitor-research
-
-Read the root SKILL.md and AGENTS.md, then load only the skills required for the task.
-
-Research competitors for:
-AI automation for auto repair shops
-
-Geography: Russia
-Goal: map the real competitive landscape and identify defensible whitespace.
-
-Use current public sources.
-Do not invent missing information.
-Classify important claims as FACT, ESTIMATE, HYPOTHESIS, ASSUMPTION or NOT_FOUND.
-Run contradiction-check, evidence-verification and red-team before final conclusions.
-Show evidence, dates, confidence and data gaps for major findings.
-```
+[`prompts/deep-russia-research.md`](prompts/deep-russia-research.md)
 
 ---
 
-# Research Workflow
+# How the agent should work
 
 ```text
 User request
     ↓
-Root SKILL.md — router
+Root SKILL.md
+    ↓
+Capability detection
+    ↓
+Geographic Source Pack
     ↓
 research-planner
     ↓
@@ -121,14 +146,14 @@ competitor-discovery
     ↓
 competitor-profiling
     ↓
-┌──────────────────────────────┐
-│ product-intelligence         │
-│ pricing-intelligence         │
-│ customer-research            │
-│ voice-of-customer            │
-│ gtm-intelligence             │
-│ strategic-signals            │
-└──────────────────────────────┘
+┌───────────────────────────────┐
+│ product-intelligence          │
+│ pricing-intelligence          │
+│ customer-research             │
+│ voice-of-customer             │
+│ gtm-intelligence              │
+│ strategic-signals             │
+└───────────────────────────────┘
     ↓
 market-whitespace
     ↓
@@ -138,37 +163,55 @@ evidence-verification
     ↓
 red-team
     ↓
-final evidence-backed report
+Final evidence-backed report
 ```
 
-For a narrow request, the agent should **not** load the entire system. Example: a pricing-only task normally needs `competitor-profiling`, `pricing-intelligence`, and `evidence-verification`.
+The system uses **progressive skill loading**. A narrow pricing task should not automatically run the full pipeline.
 
 ---
 
 # Skills
 
-| Skill | Purpose |
+| Skill | What it does |
 |---|---|
-| `research-planner` | Defines scope, research questions, source strategy and depth |
-| `competitor-discovery` | Finds direct, indirect, substitute, DIY and adjacent competitors |
-| `competitor-profiling` | Builds standardized evidence-backed competitor profiles |
-| `product-intelligence` | Compares product capabilities, workflows, maturity and differentiation |
-| `pricing-intelligence` | Analyzes pricing, packaging, value metrics and pricing gaps |
-| `customer-research` | Extracts jobs, pains, triggers, objections and desired outcomes |
-| `voice-of-customer` | Mines and clusters customer language from public sources |
-| `gtm-intelligence` | Investigates acquisition, distribution, content and channel signals |
-| `strategic-signals` | Detects launches, hiring, positioning, pricing and market shifts |
-| `market-whitespace` | Finds underserved segments and defensible gaps |
-| `contradiction-check` | Preserves and analyzes conflicting evidence instead of hiding it |
-| `evidence-verification` | Validates claims, sources, dates, calculations and provenance |
-| `red-team` | Tries to falsify the main thesis before recommendations are published |
-| `market-monitoring` | Defines repeatable watchlists and meaningful change detection |
+| [`research-planner`](skills/research-planner/SKILL.md) | Converts the request into questions, sources, skills, research waves and stop conditions |
+| [`competitor-discovery`](skills/competitor-discovery/SKILL.md) | Finds direct, indirect, substitute, DIY and adjacent competitors |
+| [`competitor-profiling`](skills/competitor-profiling/SKILL.md) | Builds standardized evidence-backed competitor profiles |
+| [`product-intelligence`](skills/product-intelligence/SKILL.md) | Compares workflows, capabilities, maturity and differentiation |
+| [`pricing-intelligence`](skills/pricing-intelligence/SKILL.md) | Captures current prices, packaging, value metrics and pricing gaps |
+| [`customer-research`](skills/customer-research/SKILL.md) | Extracts JTBD, pains, triggers, objections, outcomes and alternatives |
+| [`voice-of-customer`](skills/voice-of-customer/SKILL.md) | Mines real customer language, complaints, praise and switching reasons |
+| [`gtm-intelligence`](skills/gtm-intelligence/SKILL.md) | Maps observable acquisition, distribution, content and sales signals |
+| [`strategic-signals`](skills/strategic-signals/SKILL.md) | Detects pricing, product, hiring, positioning and market changes |
+| [`market-whitespace`](skills/market-whitespace/SKILL.md) | Tests underserved segments and gaps against demand and entry evidence |
+| [`contradiction-check`](skills/contradiction-check/SKILL.md) | Reconciles or preserves conflicting evidence |
+| [`evidence-verification`](skills/evidence-verification/SKILL.md) | Audits provenance, scope, freshness, calculations and independence |
+| [`red-team`](skills/red-team/SKILL.md) | Tries to falsify the main strategic thesis |
+| [`market-monitoring`](skills/market-monitoring/SKILL.md) | Defines watchlists, snapshot diffing and meaningful market events |
 
 ---
 
-# Evidence Protocol
+# Shared Research Frameworks
 
-Every important statement must be classified as one of:
+The individual skills share one operating discipline.
+
+Start with:
+
+- [`frameworks/evidence-protocol.md`](frameworks/evidence-protocol.md)
+- [`frameworks/search-strategy.md`](frameworks/search-strategy.md)
+- [`frameworks/fallback-policy.md`](frameworks/fallback-policy.md)
+- [`frameworks/output-contract.md`](frameworks/output-contract.md)
+- [`frameworks/source-quality.md`](frameworks/source-quality.md)
+- [`frameworks/confidence-model.md`](frameworks/confidence-model.md)
+- [`frameworks/research-depth.md`](frameworks/research-depth.md)
+- [`frameworks/quality-gates.md`](frameworks/quality-gates.md)
+- [`frameworks/report-framework.md`](frameworks/report-framework.md)
+
+---
+
+# Evidence classes
+
+Every material research statement should be distinguishable as:
 
 ```text
 FACT
@@ -178,85 +221,178 @@ ASSUMPTION
 NOT_FOUND
 ```
 
-A failed search is **not** proof that something does not exist.
+Examples:
 
-A protected or unavailable page is **not** a `NOT_FOUND` result.
+```text
+[FACT]
+Competitor X lists its Pro plan at 4,990 RUB/month on the official pricing page.
+Observed: 2026-09-16.
+```
 
-Ten articles repeating one press release are **not** ten independent confirmations.
+```text
+[HYPOTHESIS]
+Competitor X may be moving toward enterprise customers.
 
-Customer discussion is **not automatically buying demand**.
+Evidence:
+- enterprise page launched;
+- SSO added;
+- enterprise sales roles advertised.
+```
 
-See [`frameworks/evidence-protocol.md`](frameworks/evidence-protocol.md) and [`frameworks/source-quality.md`](frameworks/source-quality.md).
+A hypothesis must never silently become a fact in the final report.
 
 ---
 
-# Tool-independent by design
+# Research in waves
 
-Skills define:
+Production research should normally use multiple waves:
 
 ```text
-WHAT TO INVESTIGATE
-HOW TO REASON
-HOW TO VERIFY
-WHAT TO RETURN
+WAVE 1
+Broad category/JTBD discovery
+
+WAVE 2
+Entity verification + classification
+
+WAVE 3
+Deep competitor analysis
+
+WAVE 4
+Targeted gap closure + counter-searches
 ```
 
-Tools define only how data is acquired.
+The agent should stop based on **evidence saturation**, not because it reached an arbitrary source count.
 
-An agent may use any legal and available source or integration, including:
+---
 
-- native web search and browser tools;
-- official company websites and documentation;
-- public government and company registries;
-- GitHub;
-- RSS;
-- review platforms and public communities;
+# Research depth
+
+### Quick
+
+Reconnaissance or narrow comparison.
+
+### Standard
+
+Normal evidence-backed competitor analysis.
+
+### Deep
+
+For market entry, product strategy, positioning, pricing and serious opportunity validation.
+
+Deep mode requires:
+
+```text
+contradiction-check
+→ evidence-verification
+→ red-team
+→ final synthesis
+```
+
+See [`frameworks/research-depth.md`](frameworks/research-depth.md).
+
+---
+
+# Russia Source Pack 🇷🇺
+
+For research in Russia, the root router loads:
+
+[`source-packs/russia.md`](source-packs/russia.md)
+
+It prioritizes relevant source families such as:
+
+- official FNS/company information;
+- Rosstat and official statistics;
+- public procurement data when relevant;
+- Fedresurs/public company events when relevant;
+- official competitor websites and documents;
+- Yandex Maps / 2GIS for local discovery and customer signals;
+- hh.ru as a hiring signal;
+- relevant marketplaces, reviews and public communities;
+- domain-specific official regulators and registries.
+
+Important distinctions are built into the pack:
+
+```text
+Tender value ≠ competitor revenue
+Vacancy count ≠ company growth
+Telegram subscribers ≠ customers
+Map rating ≠ universal business quality
+OKVED ≠ proof of primary revenue activity
+```
+
+The source pack is guidance, not permission to bypass platform restrictions.
+
+---
+
+# Graceful fallback
+
+Optional integrations are accelerators, not requirements.
+
+The methodology can work with native web/search/browser capabilities. If available, external tools may improve coverage:
+
 - Crawl4AI;
 - GPT Researcher;
 - Firecrawl;
 - DataForSEO;
 - authorized social-data APIs.
 
-Optional integrations improve coverage, but their absence must never be replaced with fabricated data.
+If a tool is unavailable:
+
+```text
+SKIP TOOL
+→ USE LEGAL FALLBACK SOURCE
+→ RECORD COVERAGE GAP IF MATERIAL
+→ CONTINUE RESEARCH
+```
+
+A tool failure must never be reported as “no market activity”.
 
 ---
 
-# Repository Structure
+# Machine-readable schemas
+
+The repo includes schemas intended for agent pipelines and future applications:
+
+- [`source.schema.json`](schemas/source.schema.json)
+- [`claim.schema.json`](schemas/claim.schema.json)
+- [`insight.schema.json`](schemas/insight.schema.json)
+- [`competitor.schema.json`](schemas/competitor.schema.json)
+- [`opportunity.schema.json`](schemas/opportunity.schema.json)
+- [`research.schema.json`](schemas/research.schema.json)
+- [`report.schema.json`](schemas/report.schema.json)
+- [`skill-output.schema.json`](schemas/skill-output.schema.json)
+
+This lets a product store structured research instead of treating the whole analysis as one text blob.
+
+---
+
+# Final quality gates
+
+Before a deep report is published, the system checks:
+
+- scope integrity;
+- competitor-set coverage;
+- evidence provenance;
+- material numbers;
+- contradictions;
+- source independence;
+- verification results;
+- red-team findings;
+- unresolved data gaps;
+- recommendation traceability.
+
+Final report status must be one of:
 
 ```text
-.
-├── README.md
-├── SKILL.md                  # root research router
-├── AGENTS.md                 # global agent operating rules
-├── SECURITY.md
-├── THIRD_PARTY_NOTICES.md
-│
-├── skills/                   # modular research skills
-│   ├── research-planner/
-│   ├── competitor-discovery/
-│   ├── competitor-profiling/
-│   ├── product-intelligence/
-│   ├── pricing-intelligence/
-│   ├── customer-research/
-│   ├── voice-of-customer/
-│   ├── gtm-intelligence/
-│   ├── strategic-signals/
-│   ├── market-whitespace/
-│   ├── contradiction-check/
-│   ├── evidence-verification/
-│   ├── red-team/
-│   └── market-monitoring/
-│
-├── frameworks/               # shared research and evidence protocols
-├── schemas/                  # machine-readable output contracts
-├── prompts/                  # reusable starting prompts
-├── examples/                 # SaaS, e-commerce, local business, B2B
-└── docs/                     # architecture and integration notes
+VERIFIED
+VERIFIED_WITH_GAPS
+DEGRADED
+INSUFFICIENT_EVIDENCE
 ```
 
 ---
 
-# Security and Credentials
+# Security
 
 This public repository intentionally contains **no production secrets**.
 
@@ -264,55 +400,47 @@ Never commit:
 
 - API keys;
 - passwords;
-- session cookies;
 - Telegram bot tokens;
-- private customer datasets;
-- authentication credentials.
+- cookies/session tokens;
+- customer credentials;
+- private customer datasets.
 
-Runtime applications should use environment variables or a proper secret manager. See [`SECURITY.md`](SECURITY.md) and [`.env.example`](.env.example).
-
----
-
-# Third-party Projects
-
-This repository contains original LeadUX AI skill definitions and research methodology. It does **not** vendor third-party source code.
-
-Several open-source projects informed parts of the architecture and workflow. See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for references and intended integration boundaries.
+See [`SECURITY.md`](SECURITY.md).
 
 ---
 
-# Status
+# Project direction
 
-**v0.1.0 — Competitor Intelligence Skills Foundation**
-
-Current focus: make competitor research reproducible, source-backed and useful for real product and market decisions.
-
-Planned evolution:
+This repository is the first research layer of the broader LeadUX agent architecture:
 
 ```text
-Competitor Research
-      ↓
+Competitor Intelligence
+        ↓
 Market Intelligence
-      ↓
-Content Strategist
-      ↓
-Lead Discovery
-      ↓
-Lead Qualification
-      ↓
+        ↓
+AI Content Strategist
+        ↓
+Lead Discovery Agent
+        ↓
+Lead Intake / Qualification
+        ↓
 LeadUX OS
 ```
+
+The same evidence graph can later feed content, lead discovery and qualification instead of forcing each agent to start research from zero.
 
 ---
 
 # LeadUX AI
 
-LeadUX AI develops practical AI automation, research systems and agent workflows focused on business outcomes rather than AI for its own sake.
+LeadUX AI builds practical AI automation and agent systems focused on business outcomes rather than AI for its own sake.
+
+Follow development, experiments and new agent skills:
 
 **Telegram:** [https://t.me/leadux_ai](https://t.me/leadux_ai)  
 **Website:** [https://leaduxai.id](https://leaduxai.id/)
 
-If you use these skills, improve them, or build an interesting research workflow around them, follow the Telegram channel for new versions and related LeadUX AI projects.
+Created by **Viacheslav Bushmakin / LeadUX AI**.
 
 ---
 
