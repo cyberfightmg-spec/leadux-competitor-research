@@ -1,14 +1,30 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "ResearchPlan",
+  "$id": "https://leaduxai.id/schemas/research.schema.json",
+  "title": "LeadUX Research Run",
   "type": "object",
-  "required": ["objective", "scope", "research_questions", "required_skills"],
+  "required": ["research_id", "goal", "market", "geography", "depth", "status", "integrity_status"],
   "properties": {
-    "objective": {"type": "string"},
-    "scope": {"type": "object"},
-    "research_questions": {"type": "array", "items": {"type": "object"}},
-    "required_skills": {"type": "array", "items": {"type": "string"}},
-    "capabilities": {"type": "object"},
-    "limitations": {"type": "array", "items": {"type": "string"}}
-  }
+    "research_id": {"type": "string", "minLength": 1},
+    "goal": {"type": "string", "minLength": 1},
+    "market": {"type": "string", "minLength": 1},
+    "market_definition": {"type": ["string", "null"]},
+    "target_customer": {"type": ["string", "null"]},
+    "jtbd": {"type": ["string", "null"]},
+    "geography": {"type": "array", "items": {"type": "string"}},
+    "languages": {"type": "array", "items": {"type": "string"}},
+    "depth": {"enum": ["quick", "standard", "deep"]},
+    "status": {"enum": ["planned", "running", "complete", "partial", "degraded", "blocked"]},
+    "integrity_status": {"enum": ["VERIFIED", "VERIFIED_WITH_GAPS", "DEGRADED", "INSUFFICIENT_EVIDENCE", "NOT_YET_VERIFIED"]},
+    "started_at": {"type": ["string", "null"]},
+    "completed_at": {"type": ["string", "null"]},
+    "available_capabilities": {"type": "array", "items": {"type": "string"}},
+    "unavailable_capabilities": {"type": "array", "items": {"type": "string"}},
+    "source_packs": {"type": "array", "items": {"type": "string"}},
+    "skills_used": {"type": "array", "items": {"type": "string"}},
+    "high_impact_question_ids": {"type": "array", "items": {"type": "string"}},
+    "data_gaps": {"type": "array", "items": {"type": "object"}},
+    "notes": {"type": ["string", "null"]}
+  },
+  "additionalProperties": true
 }
