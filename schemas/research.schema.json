@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ResearchPlan",
+  "type": "object",
+  "required": ["objective", "scope", "research_questions", "required_skills"],
+  "properties": {
+    "objective": {"type": "string"},
+    "scope": {"type": "object"},
+    "research_questions": {"type": "array", "items": {"type": "object"}},
+    "required_skills": {"type": "array", "items": {"type": "string"}},
+    "capabilities": {"type": "object"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}
