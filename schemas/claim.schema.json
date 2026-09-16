@@ -1,21 +1,41 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Claim",
+  "$id": "https://leaduxai.id/schemas/claim.schema.json",
+  "title": "LeadUX Research Claim",
   "type": "object",
-  "required": ["id", "text", "evidence_type", "confidence", "source_ids"],
+  "required": ["claim_id", "text", "evidence_type", "source_ids", "confidence", "verification_status"],
   "properties": {
-    "id": {"type": "string"},
-    "text": {"type": "string"},
+    "claim_id": {"type": "string", "minLength": 1},
+    "research_id": {"type": ["string", "null"]},
+    "text": {"type": "string", "minLength": 1},
     "evidence_type": {"enum": ["FACT", "ESTIMATE", "HYPOTHESIS", "ASSUMPTION", "NOT_FOUND"]},
     "entity_id": {"type": ["string", "null"]},
     "dimension": {"type": ["string", "null"]},
     "value": {},
     "unit": {"type": ["string", "null"]},
+    "currency": {"type": ["string", "null"]},
+    "geography": {"type": "array", "items": {"type": "string"}},
+    "time_period": {"type": ["string", "null"]},
+    "population": {"type": ["string", "null"]},
     "source_ids": {"type": "array", "items": {"type": "string"}},
+    "observed_at": {"type": ["string", "null"]},
     "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
-    "observed_at": {"type": ["string", "null"], "format": "date"},
-    "scope": {"type": "object"},
-    "calculation": {"type": ["object", "null"]},
-    "verification_status": {"enum": ["VERIFIED", "PARTIALLY_VERIFIED", "UNVERIFIED", "CONTRADICTED", null]}
-  }
+    "verification_status": {
+      "enum": ["UNVERIFIED", "VERIFIED", "VERIFIED_WITH_LIMITATIONS", "CONTRADICTED", "STALE", "MISCLASSIFIED", "INSUFFICIENT_SOURCE"]
+    },
+    "calculation": {
+      "type": ["object", "null"],
+      "properties": {
+        "formula": {"type": "string"},
+        "input_claim_ids": {"type": "array", "items": {"type": "string"}},
+        "notes": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "supports": {"type": "array", "items": {"type": "string"}},
+    "contradicts": {"type": "array", "items": {"type": "string"}},
+    "notes": {"type": ["string", "null"]}
+  },
+  "additionalProperties": true
 }
