@@ -2,15 +2,22 @@
 
 ## 0.4.0 — 2026-09-17
 
-### Strategy handoff integration
+### Strategy handoff + Content Performance Intelligence
 
 - Added first-class `strategy-handoff` skill for downstream LeadUX Content Strategist integration.
 - Added `schemas/strategy-handoff.schema.json`.
 - Updated root router with `strategy_input` goal and `downstream_system` support.
 - Added optional `synthesis → strategy-handoff` completion path.
 - Strategy handoff preserves stable claim/insight/opportunity IDs, verification status, confidence, contradictions, gaps, VOC, signals and GTM/content-footprint artifacts.
+- Added `content-performance-intelligence` as a separate research layer from ordinary GTM/content footprint analysis.
+- Added `schemas/content-performance-pattern.schema.json`.
+- Added account-local baseline / outlier methodology with explicit sample and comparability limits.
+- Added pattern classes: `SINGLE_OUTLIER`, `REPEATED_ACCOUNT_PATTERN`, `CROSS_ACCOUNT_PATTERN`, `FIRST_PARTY_CONFIRMED_PATTERN`.
+- Added strict performance evidence levels: `CONTENT_SIGNAL`, `AUDIENCE_RESPONSE`, `LEAD_SIGNAL`, `BUSINESS_OUTCOME`.
+- Added anti-survivorship checks so winners are compared against normal/bottom content, not studied in isolation.
+- Added content-performance patterns to `strategy-handoff` so the Strategist can test transferability against Founder/Brand Context.
 - Explicitly forbids the Research Agent from inventing founder/brand context or making downstream content-strategy choices.
-- Clarified that Founder/Brand Context belongs to the Strategist, while this repository owns market/competitor/customer evidence.
+- Clarified that Founder/Brand Context belongs to the Strategist, while this repository owns market/competitor/customer/content-performance evidence.
 
 ## 0.3.0 — 2026-09-17
 
