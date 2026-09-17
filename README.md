@@ -13,23 +13,26 @@ Built by **Viacheslav Bushmakin / LeadUX AI**.
 
 ---
 
-## v0.2.0 — Production Research Layer
+## v0.3.0 — Regional Intelligence
 
-Version 0.2 adds the operational layer required for deeper real-world research:
+Version 0.3 adds a dedicated regional competitive-intelligence layer.
 
-- multi-wave search strategy;
-- capability detection and graceful fallbacks;
-- shared structured output contract;
-- stronger Evidence Protocol;
-- source independence and contradiction handling;
-- explicit quality gates;
-- production-level planner/discovery/profiling skills;
-- stronger product, pricing, customer, VOC, GTM and strategic-signal skills;
-- false-whitespace testing;
-- mandatory evidence verification and red team for deep research;
-- machine-readable research schemas;
-- **Russia Source Pack** for Russia-focused research;
-- ready-to-use Deep Russia prompt.
+The system no longer treats a country as one homogeneous market when location is material. It can separate national, multi-regional, regional and local competitors; run independent discovery by region/city; compare observed pricing, positioning, VOC and GTM patterns; and test regional whitespace with explicit coverage controls.
+
+Key additions:
+
+- new [`regional-intelligence`](skills/regional-intelligence/SKILL.md) skill;
+- new [`frameworks/regional-intelligence.md`](frameworks/regional-intelligence.md);
+- new [`schemas/region.schema.json`](schemas/region.schema.json);
+- national vs regional/local discovery waves;
+- `NATIONAL / MULTI_REGIONAL / REGIONAL / LOCAL / ONLINE_ONLY` geographic roles;
+- separate registration, headquarters, physical presence and service coverage;
+- regional Tier A/B/C research prioritization;
+- regional pricing with sample-size/comparability rules;
+- regional VOC and GTM analysis;
+- regional whitespace + false-whitespace checks;
+- mandatory Regional Coverage Gate for deep country-level research when geography is material;
+- stronger Russia-specific regional research workflow.
 
 See [`CHANGELOG.md`](CHANGELOG.md).
 
@@ -46,15 +49,19 @@ It helps an agent investigate:
 - substitutes;
 - DIY/manual alternatives;
 - adjacent solutions;
+- national, multi-regional, regional and local competitors;
 - positioning;
 - target segments and JTBD;
 - product/workflow differences;
 - pricing and packaging;
+- regional price differences when evidence supports them;
 - customer pains and objections;
 - Voice of Customer;
 - GTM and distribution;
+- regional channel patterns;
 - strategic signals;
 - market whitespace;
+- regional whitespace;
 - contradictions;
 - evidence quality;
 - risks and counter-arguments.
@@ -84,6 +91,7 @@ It is not:
 - a one-shot mega-prompt;
 - a generic SWOT generator;
 - a tool that treats search ranking as market share;
+- a workflow that assumes Moscow/federal search results represent all of Russia;
 - a system that invents revenue, CAC, churn or customer counts;
 - a crawler designed to bypass CAPTCHA/paywalls/authentication;
 - a workflow that treats one bad review as a market-wide pain;
@@ -113,6 +121,11 @@ https://github.com/cyberfightmg-spec/leadux-competitor-research
 
 География:
 [СТРАНА]
+
+Если рынок зависит от региона/города, обязательно используй regional-intelligence:
+отдельно найди федеральных, региональных и локальных игроков,
+сравни цены, позиционирование, VOC и каналы по регионам,
+а также покажи покрытие и ограничения выборки.
 
 Не придумывай отсутствующие данные.
 Все существенные выводы подтверждай источниками.
@@ -144,6 +157,8 @@ research-planner
     ↓
 competitor-discovery
     ↓
+regional-intelligence (when material)
+    ↓
 competitor-profiling
     ↓
 ┌───────────────────────────────┐
@@ -170,12 +185,59 @@ The system uses **progressive skill loading**. A narrow pricing task should not 
 
 ---
 
+# Regional Intelligence
+
+Regional analysis is a separate research dimension, not just an address field.
+
+For every serious competitor the system can distinguish:
+
+```text
+registered_region
+headquarters
+physical_locations
+service_regions
+verified_regions
+national_coverage
+```
+
+It also assigns a geographic role independently from competitor type:
+
+```text
+DIRECT + NATIONAL
+DIRECT + REGIONAL
+INDIRECT + LOCAL
+SUBSTITUTE + ONLINE_ONLY
+```
+
+A deep country-level study in a location-sensitive market must not receive `VERIFIED` status when material regional competition was ignored.
+
+Regional comparisons may include, when supported by evidence:
+
+```text
+region
+research tier
+competitors discovered in checked sources
+Tier-A competitors
+observed price range / median + sample size
+positioning patterns
+customer themes
+channel patterns
+regional whitespace hypotheses
+coverage status
+material caveats
+```
+
+Important: `competitors discovered` is not the same as the total competitor population.
+
+---
+
 # Skills
 
 | Skill | What it does |
 |---|---|
-| [`research-planner`](skills/research-planner/SKILL.md) | Converts the request into questions, sources, skills, research waves and stop conditions |
-| [`competitor-discovery`](skills/competitor-discovery/SKILL.md) | Finds direct, indirect, substitute, DIY and adjacent competitors |
+| [`research-planner`](skills/research-planner/SKILL.md) | Converts the request into questions, sources, geographic scope, skills, research waves and stop conditions |
+| [`competitor-discovery`](skills/competitor-discovery/SKILL.md) | Finds direct, indirect, substitute, DIY and adjacent competitors using national and regional discovery where material |
+| [`regional-intelligence`](skills/regional-intelligence/SKILL.md) | Maps national/regional/local competition, regional pricing, positioning, VOC, GTM and whitespace |
 | [`competitor-profiling`](skills/competitor-profiling/SKILL.md) | Builds standardized evidence-backed competitor profiles |
 | [`product-intelligence`](skills/product-intelligence/SKILL.md) | Compares workflows, capabilities, maturity and differentiation |
 | [`pricing-intelligence`](skills/pricing-intelligence/SKILL.md) | Captures current prices, packaging, value metrics and pricing gaps |
@@ -185,15 +247,13 @@ The system uses **progressive skill loading**. A narrow pricing task should not 
 | [`strategic-signals`](skills/strategic-signals/SKILL.md) | Detects pricing, product, hiring, positioning and market changes |
 | [`market-whitespace`](skills/market-whitespace/SKILL.md) | Tests underserved segments and gaps against demand and entry evidence |
 | [`contradiction-check`](skills/contradiction-check/SKILL.md) | Reconciles or preserves conflicting evidence |
-| [`evidence-verification`](skills/evidence-verification/SKILL.md) | Audits provenance, scope, freshness, calculations and independence |
-| [`red-team`](skills/red-team/SKILL.md) | Tries to falsify the main strategic thesis |
+| [`evidence-verification`](skills/evidence-verification/SKILL.md) | Audits provenance, geography, scope, freshness, calculations and independence |
+| [`red-team`](skills/red-team/SKILL.md) | Tries to falsify the main thesis, including regional-bias and false-whitespace risks |
 | [`market-monitoring`](skills/market-monitoring/SKILL.md) | Defines watchlists, snapshot diffing and meaningful market events |
 
 ---
 
 # Shared Research Frameworks
-
-The individual skills share one operating discipline.
 
 Start with:
 
@@ -204,6 +264,7 @@ Start with:
 - [`frameworks/source-quality.md`](frameworks/source-quality.md)
 - [`frameworks/confidence-model.md`](frameworks/confidence-model.md)
 - [`frameworks/research-depth.md`](frameworks/research-depth.md)
+- [`frameworks/regional-intelligence.md`](frameworks/regional-intelligence.md)
 - [`frameworks/quality-gates.md`](frameworks/quality-gates.md)
 - [`frameworks/report-framework.md`](frameworks/report-framework.md)
 
@@ -221,47 +282,23 @@ ASSUMPTION
 NOT_FOUND
 ```
 
-Examples:
-
-```text
-[FACT]
-Competitor X lists its Pro plan at 4,990 RUB/month on the official pricing page.
-Observed: 2026-09-16.
-```
-
-```text
-[HYPOTHESIS]
-Competitor X may be moving toward enterprise customers.
-
-Evidence:
-- enterprise page launched;
-- SSO added;
-- enterprise sales roles advertised.
-```
-
 A hypothesis must never silently become a fact in the final report.
 
 ---
 
 # Research in waves
 
-Production research should normally use multiple waves:
+Production research normally uses multiple waves:
 
 ```text
-WAVE 1
-Broad category/JTBD discovery
-
-WAVE 2
-Entity verification + classification
-
-WAVE 3
-Deep competitor analysis
-
-WAVE 4
-Targeted gap closure + counter-searches
+WAVE 1 — broad national/category/JTBD discovery
+WAVE 2 — entity verification + classification
+WAVE 3 — regional/local discovery where material
+WAVE 4 — deep competitor analysis
+WAVE 5 — targeted gap closure + counter-searches
 ```
 
-The agent should stop based on **evidence saturation**, not because it reached an arbitrary source count.
+The agent stops based on **evidence saturation**, not because it reached an arbitrary source count.
 
 ---
 
@@ -277,7 +314,7 @@ Normal evidence-backed competitor analysis.
 
 ### Deep
 
-For market entry, product strategy, positioning, pricing and serious opportunity validation.
+For market entry, product strategy, positioning, pricing, expansion and serious opportunity validation.
 
 Deep mode requires:
 
@@ -288,7 +325,7 @@ contradiction-check
 → final synthesis
 ```
 
-See [`frameworks/research-depth.md`](frameworks/research-depth.md).
+When geography is material, it also requires the **Regional Coverage Gate**.
 
 ---
 
@@ -298,29 +335,19 @@ For research in Russia, the root router loads:
 
 [`source-packs/russia.md`](source-packs/russia.md)
 
-It prioritizes relevant source families such as:
+It covers national and regional source families, including official statistics/registries, official competitor sources, Yandex Maps / 2GIS, hh.ru, relevant marketplaces, public communities and domain-specific sources.
 
-- official FNS/company information;
-- Rosstat and official statistics;
-- public procurement data when relevant;
-- Fedresurs/public company events when relevant;
-- official competitor websites and documents;
-- Yandex Maps / 2GIS for local discovery and customer signals;
-- hh.ru as a hiring signal;
-- relevant marketplaces, reviews and public communities;
-- domain-specific official regulators and registries.
-
-Important distinctions are built into the pack:
+For region-sensitive markets, Russia research uses:
 
 ```text
-Tender value ≠ competitor revenue
-Vacancy count ≠ company growth
-Telegram subscribers ≠ customers
-Map rating ≠ universal business quality
-OKVED ≠ proof of primary revenue activity
+NATIONAL DISCOVERY
++
+REGIONAL / CITY DISCOVERY
++
+REGIONAL COVERAGE CHECK
 ```
 
-The source pack is guidance, not permission to bypass platform restrictions.
+Registration region must never be treated as proof that a company serves that region, and a Moscow/federal result set must never substitute for regional discovery.
 
 ---
 
@@ -351,18 +378,17 @@ A tool failure must never be reported as “no market activity”.
 
 # Machine-readable schemas
 
-The repo includes schemas intended for agent pipelines and future applications:
+The repo includes:
 
 - [`source.schema.json`](schemas/source.schema.json)
 - [`claim.schema.json`](schemas/claim.schema.json)
 - [`insight.schema.json`](schemas/insight.schema.json)
 - [`competitor.schema.json`](schemas/competitor.schema.json)
+- [`region.schema.json`](schemas/region.schema.json)
 - [`opportunity.schema.json`](schemas/opportunity.schema.json)
 - [`research.schema.json`](schemas/research.schema.json)
 - [`report.schema.json`](schemas/report.schema.json)
 - [`skill-output.schema.json`](schemas/skill-output.schema.json)
-
-This lets a product store structured research instead of treating the whole analysis as one text blob.
 
 ---
 
@@ -372,8 +398,10 @@ Before a deep report is published, the system checks:
 
 - scope integrity;
 - competitor-set coverage;
+- regional coverage when material;
 - evidence provenance;
 - material numbers;
+- geographic scope match;
 - contradictions;
 - source independence;
 - verification results;
@@ -396,22 +424,13 @@ INSUFFICIENT_EVIDENCE
 
 This public repository intentionally contains **no production secrets**.
 
-Never commit:
-
-- API keys;
-- passwords;
-- Telegram bot tokens;
-- cookies/session tokens;
-- customer credentials;
-- private customer datasets.
+Never commit API keys, passwords, Telegram bot tokens, cookies/session tokens, customer credentials or private customer datasets.
 
 See [`SECURITY.md`](SECURITY.md).
 
 ---
 
 # Project direction
-
-This repository is the first research layer of the broader LeadUX agent architecture:
 
 ```text
 Competitor Intelligence
