@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0 — 2026-09-17
+
+### Strategy handoff integration
+
+- Added first-class `strategy-handoff` skill for downstream LeadUX Content Strategist integration.
+- Added `schemas/strategy-handoff.schema.json`.
+- Updated root router with `strategy_input` goal and `downstream_system` support.
+- Added optional `synthesis → strategy-handoff` completion path.
+- Strategy handoff preserves stable claim/insight/opportunity IDs, verification status, confidence, contradictions, gaps, VOC, signals and GTM/content-footprint artifacts.
+- Explicitly forbids the Research Agent from inventing founder/brand context or making downstream content-strategy choices.
+- Clarified that Founder/Brand Context belongs to the Strategist, while this repository owns market/competitor/customer evidence.
+
 ## 0.3.0 — 2026-09-17
 
 ### Regional Intelligence
