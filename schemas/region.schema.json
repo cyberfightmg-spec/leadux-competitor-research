@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaduxai.id/schemas/region.schema.json",
+  "title": "LeadUX Regional Intelligence",
+  "type": "object",
+  "required": ["region_id", "name", "geographic_level", "coverage_status"],
+  "properties": {
+    "region_id": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "country": {"type": ["string", "null"]},
+    "geographic_level": {
+      "enum": ["COUNTRY", "MACRO_REGION", "REGION", "CITY", "LOCAL_AREA", "MIXED"]
+    },
+    "parent_region_id": {"type": ["string", "null"]},
+    "research_tier": {"enum": ["A", "B", "C", "NOT_ASSIGNED"]},
+    "priority_reason": {"type": ["string", "null"]},
+    "competitors_discovered": {"type": "integer", "minimum": 0},
+    "direct_discovered": {"type": "integer", "minimum": 0},
+    "indirect_discovered": {"type": "integer", "minimum": 0},
+    "substitute_discovered": {"type": "integer", "minimum": 0},
+    "tier_a_competitor_ids": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "source_families_checked": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "query_families_checked": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "observed_price_summary": {
+      "type": ["object", "null"],
+      "properties": {
+        "comparable_offer": {"type": ["string", "null"]},
+        "sample_size": {"type": "integer", "minimum": 0},
+        "currency": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "min_observed": {"type": ["number", "null"]},
+        "max_observed": {"type": ["number", "null"]},
+        "median_observed": {"type": ["number", "null"]},
+        "observed_from": {"type": ["string", "null"], "format": "date"},
+        "observed_to": {"type": ["string", "null"], "format": "date"},
+        "tax_context": {"type": ["string", "null"]},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "positioning_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern", "confidence"],
+        "properties": {
+          "pattern": {"type": "string"},
+          "supporting_entity_ids": {"type": "array", "items": {"type": "string"}},
+          "supporting_claim_ids": {"type": "array", "items": {"type": "string"}},
+          "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "customer_themes": {"type": "array", "items": {"type": "object"}},
+    "channel_patterns": {"type": "array", "items": {"type": "object"}},
+    "whitespace_hypotheses": {"type": "array", "items": {"type": "object"}},
+    "coverage_status": {
+      "enum": ["HIGH_COVERAGE", "MEDIUM_COVERAGE", "LOW_COVERAGE", "NOT_RESEARCHED"]
+    },
+    "coverage_notes": {"type": ["string", "null"]},
+    "material_gaps": {"type": "array", "items": {"type": "string"}},
+    "source_ids": {"type": "array", "items": {"type": "string"}},
+    "observed_at": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "additionalProperties": true
+}
