@@ -16,6 +16,47 @@
     "classification_confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
     "classification_reason": {"type": ["string", "null"]},
     "geography": {"type": "array", "items": {"type": "string"}},
+    "geographic_role": {
+      "enum": ["NATIONAL", "MULTI_REGIONAL", "REGIONAL", "LOCAL", "ONLINE_ONLY", "UNKNOWN"]
+    },
+    "geographic_presence": {
+      "type": "object",
+      "properties": {
+        "registered_region": {"type": ["string", "null"]},
+        "headquarters": {"type": ["string", "null"]},
+        "national_coverage": {"type": ["boolean", "null"]},
+        "physical_locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {"type": ["string", "null"]},
+              "city": {"type": ["string", "null"]},
+              "address": {"type": ["string", "null"]},
+              "source_ids": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": true
+          }
+        },
+        "service_regions": {"type": "array", "items": {"type": "string"}},
+        "verified_regions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["region", "presence_type", "confidence"],
+            "properties": {
+              "region": {"type": "string"},
+              "cities": {"type": "array", "items": {"type": "string"}},
+              "presence_type": {"enum": ["OFFICE", "BRANCH", "SERVICE", "ONLINE", "PARTNER", "UNKNOWN"]},
+              "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+              "source_ids": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
     "target_segments": {"type": "array", "items": {"type": "string"}},
     "jtbd": {"type": "array", "items": {"type": "string"}},
     "identity": {
@@ -23,7 +64,7 @@
       "properties": {
         "inn": {"type": ["string", "null"]},
         "ogrn": {"type": ["string", "null"]},
-        "region": {"type": ["string", "null"]}
+        "region": {"type": ["string", "null"], "description": "Legacy registration/identity region field. Do not treat as service coverage."}
       },
       "additionalProperties": true
     },
