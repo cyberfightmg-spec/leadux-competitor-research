@@ -139,6 +139,10 @@
         "additionalProperties": true
       }
     },
+    "content_performance_patterns": {
+      "type": "array",
+      "items": {"$ref": "content-performance-pattern.schema.json"}
+    },
     "contradictions": {"type": "array", "items": {"type": "object"}},
     "data_gaps": {"type": "array", "items": {"type": "object"}},
     "integrity_status": {"enum": ["VERIFIED", "VERIFIED_WITH_GAPS", "DEGRADED", "INSUFFICIENT_EVIDENCE", "NOT_YET_VERIFIED"]},
@@ -148,6 +152,7 @@
       "properties": {
         "generated_at": {"type": ["string", "null"]},
         "producer_version": {"type": ["string", "null"]},
+        "target_system": {"type": ["string", "null"]},
         "selection_notes": {"type": "array", "items": {"type": "string"}},
         "omitted_artifact_types": {"type": "array", "items": {"type": "string"}}
       },
