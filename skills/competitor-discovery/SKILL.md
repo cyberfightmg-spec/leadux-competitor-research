@@ -12,12 +12,15 @@ This skill must find and classify:
 - DIY/manual alternatives;
 - adjacent solutions.
 
+It must also avoid national-search bias when regional/local competition is material.
+
 Read first:
 
 - `frameworks/competitor-taxonomy.md`
 - `frameworks/search-strategy.md`
 - `frameworks/fallback-policy.md`
 - `frameworks/output-contract.md`
+- `frameworks/regional-intelligence.md` when regional analysis is active.
 
 Load the relevant geographic source pack when available.
 
@@ -31,6 +34,11 @@ Load the relevant geographic source pack when available.
   "geography": [],
   "search_vocabulary": [],
   "known_competitors": [],
+  "regional_analysis": {
+    "material": false,
+    "geographic_level": "",
+    "regional_tiers": []
+  },
   "research_depth": "quick|standard|deep"
 }
 ```
@@ -51,9 +59,13 @@ The same customer budget may go to:
 - marketplace/platform tools;
 - adjacent products that absorb the same workflow.
 
-## Discovery process
+Likewise, do not answer a country-level question by looking only at national search results. Strong regional players may have weak national visibility.
 
-### 1. Seed expansion
+---
+
+# Discovery process
+
+## 1. Seed expansion
 
 Build candidate terms from:
 
@@ -64,56 +76,111 @@ Build candidate terms from:
 - alternatives language;
 - local-language variants;
 - product-review vocabulary;
-- marketplace/directory categories.
+- marketplace/directory categories;
+- region/city modifiers when regional analysis is active.
 
-### 2. Run independent discovery families
+## 2. National discovery wave
 
-Use as many as are relevant and available:
+Run independent discovery families as relevant:
 
-#### Category search
+### Category search
 
 Find products explicitly describing themselves as part of the category.
 
-#### Problem/JTBD search
+### Problem/JTBD search
 
 Find products/services customers use to solve the underlying job without using the category term.
 
-#### Alternative search
+### Alternative search
 
-Use known competitors to discover “alternatives”, “analogs”, comparison pages and switching discussions.
+Use known competitors to discover alternatives, analogs, comparison pages and switching discussions.
 
-#### Customer-language search
+### Customer-language search
 
 Look for “what do you use for…”, “how do you handle…”, “recommend…”, “instead of…”, reviews and community discussions.
 
-#### Directory / marketplace / app discovery
+### Directory / marketplace / app discovery
 
 Use relevant public directories, app stores, maps, marketplaces or industry catalogs when applicable.
 
-#### SEO/content neighborhood
+### SEO/content neighborhood
 
 Where available, identify entities repeatedly appearing around the same problem/category queries. Treat visibility as discovery evidence only, not market-share evidence.
 
-#### Registry/domain discovery
+### Registry/domain discovery
 
 For markets/geographies where official/public company sources help, use them to verify entity identity or uncover relevant operators.
 
-### 3. Verify entity identity
+The national wave should identify:
 
-For every serious candidate, verify when possible:
+- national players;
+- multi-regional players;
+- major category brands;
+- digital/online alternatives;
+- broad substitutes.
+
+It is a baseline, not the complete competitor set when location is material.
+
+---
+
+## 3. Regional/local discovery wave
+
+If `regional_analysis.material = true`, run independent discovery for selected regions/cities.
+
+For each Tier-A region, combine category/problem vocabulary with local geography:
+
+```text
+{category} + {region}
+{category} + {city}
+{JTBD/problem} + {region}
+{service} + {city}
+{alternative wording} + {city}
+{buyer-language query} + {region}
+```
+
+Use local source families where relevant:
+
+- maps;
+- directories;
+- local business catalogs;
+- local marketplace listings;
+- regional communities;
+- local review platforms;
+- region-specific public registries/statistics;
+- regional search results;
+- official location/service-area pages.
+
+For Tier-B regions use a narrower but still independent discovery wave.
+
+Tier-C regions may receive a coverage scan rather than deep profiling.
+
+Regional discovery must be capable of finding competitors that do not appear in national results.
+
+---
+
+## 4. Verify entity identity
+
+For every serious candidate verify when possible:
 
 - canonical brand name;
 - official domain;
-- geography;
 - actual product/service;
 - target segment;
-- whether the company/product is active as of the research date.
+- active/inactive status;
+- legal identity where relevant;
+- registration region if available;
+- operating/service regions;
+- branch/location evidence.
 
 Do not merge entities solely by similar names.
 
-### 4. Classify competitor type
+Do not treat registration region as proof of service coverage.
 
-Use the taxonomy:
+---
+
+## 5. Classify competitor type
+
+Use:
 
 ```text
 DIRECT
@@ -123,9 +190,24 @@ DIY
 ADJACENT
 ```
 
-Classification should be based on overlap in customer, JTBD and budget, not marketing category alone.
+Classification is based on overlap in customer, JTBD and budget, not marketing category alone.
 
-### 5. Score relevance
+If regional analysis is active, also classify geographic role:
+
+```text
+NATIONAL
+MULTI_REGIONAL
+REGIONAL
+LOCAL
+ONLINE_ONLY
+UNKNOWN
+```
+
+These are independent dimensions.
+
+---
+
+## 6. Score relevance
 
 Use an explainable overlap model. Suggested dimensions:
 
@@ -139,11 +221,15 @@ Distribution context   5
 Market relevance       5
 ```
 
-The exact weights may be adapted to the market, but changes must be explicit.
+The exact weights may be adapted, but changes must be explicit.
 
-Do not confuse relevance score with company quality or market strength.
+Do not confuse relevance score with company quality, market share or strength.
 
-### 6. Assign depth tier
+For regional research, `Geography` should reflect verified relevance to the researched territory, not registration address alone.
+
+---
+
+## 7. Assign depth tier
 
 ```text
 Tier A — highest decision relevance; deep profile
@@ -151,37 +237,64 @@ Tier B — meaningful competitor; medium profile
 Tier C — map-level context
 ```
 
-Tiering should be relative to the research question, not brand fame.
+Tiering is relative to the research question, not brand fame.
 
-### 7. Run gap searches
+A strong local player can be Tier A even if it is unknown nationally.
+
+---
+
+## 8. Entity deduplication across regions
+
+Do not count the same chain/brand separately for every branch unless local units operate strategically independently.
+
+Represent one competitor with multiple verified geographic presences.
+
+Preserve local branch/location evidence separately.
+
+---
+
+## 9. Gap searches
 
 Before stopping, ask:
 
 - Did we discover at least one non-obvious substitute where one plausibly exists?
 - Are local/regional players missing?
+- Did national SEO visibility hide regional leaders?
 - Did English-only or Russian-only search hide competitors?
 - Are service/manual alternatives missing?
 - Are category comparison pages over-weighting SEO-heavy vendors?
+- Did we search maps/directories where the business is location-sensitive?
+- Did we verify branches/service regions of national players?
 
-### 8. Saturation
+If the market appears unusually sparse, run a deliberate false-whitespace search.
 
-Discovery approaches saturation when two consecutive waves produce few new high-relevance entities and no new competitor type.
+---
 
-If the market appears unusually sparse, run a deliberate “false whitespace” search before concluding that competition is low.
+## 10. Saturation
 
-## Negative evidence
+National discovery approaches saturation when two consecutive waves produce few new high-relevance entities and no new competitor type.
+
+Regional discovery approaches saturation independently for each Tier-A region when repeated local waves produce few new relevant entities across multiple source/query families.
+
+Do not claim regional saturation if only one source family was checked.
+
+---
+
+# Negative evidence
 
 Never say:
 
-> There are no competitors.
+> There are no competitors in Region X.
 
-unless the claim has an extraordinarily strong, explicitly bounded basis.
+unless there is an extraordinarily strong and explicitly bounded basis.
 
 Prefer:
 
-> No additional direct competitors were found in the source/query families checked as of DATE; indirect and substitute solutions remain listed separately.
+> No additional direct competitors were found in the regional source/query families checked as of DATE; coverage status is MEDIUM and indirect/substitute solutions remain listed separately.
 
-## Required output
+---
+
+# Required output
 
 Use the shared envelope plus:
 
@@ -195,14 +308,18 @@ Use the shared envelope plus:
         "name": "",
         "official_url": "",
         "type": "DIRECT|INDIRECT|SUBSTITUTE|DIY|ADJACENT",
+        "geographic_role": "NATIONAL|MULTI_REGIONAL|REGIONAL|LOCAL|ONLINE_ONLY|UNKNOWN",
         "relevance_score": 0,
         "classification_confidence": "high|medium|low",
         "reason": "",
         "tier": "A|B|C",
+        "verified_regions": [],
         "source_ids": []
       }
     ],
-    "search_families_used": [],
+    "national_search_families_used": [],
+    "regional_search_families_used": {},
+    "regional_coverage": [],
     "saturation_notes": "",
     "missing_competitor_types": []
   }
@@ -218,4 +335,7 @@ Before returning:
 - verify official domains for Tier A;
 - explain every Tier A classification;
 - flag uncertain/inactive candidates;
-- keep weak candidates out of the deep-analysis queue.
+- keep weak candidates out of the deep-analysis queue;
+- do not replace regional discovery with national search;
+- do not present discovered competitor counts as total market counts;
+- preserve coverage limitations by region.
