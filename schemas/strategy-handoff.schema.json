@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leaduxai.id/schemas/competitor-research/strategy-handoff.schema.json",
+  "title": "LeadUX Competitor Research Strategy Handoff",
+  "type": "object",
+  "required": ["research_package_id", "research_run", "claims", "insights", "integrity_status"],
+  "properties": {
+    "research_package_id": {"type": "string", "minLength": 1},
+    "research_run": {
+      "type": "object",
+      "required": ["research_id", "market", "geography"],
+      "properties": {
+        "research_id": {"type": "string"},
+        "goal": {"type": ["string", "null"]},
+        "market": {"type": "string"},
+        "geography": {"type": "array", "items": {"type": "string"}},
+        "target_customer": {"type": ["string", "null"]},
+        "jtbd": {"type": ["string", "null"]},
+        "completed_at": {"type": ["string", "null"]},
+        "integrity_status": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim_id", "text", "evidence_type", "confidence", "verification_status"],
+        "properties": {
+          "claim_id": {"type": "string"},
+          "text": {"type": "string"},
+          "evidence_type": {"enum": ["FACT", "ESTIMATE", "HYPOTHESIS", "ASSUMPTION", "NOT_FOUND"]},
+          "source_ids": {"type": "array", "items": {"type": "string"}},
+          "geography": {"type": "array", "items": {"type": "string"}},
+          "time_period": {"type": ["string", "null"]},
+          "population": {"type": ["string", "null"]},
+          "observed_at": {"type": ["string", "null"]},
+          "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]},
+          "verification_status": {"enum": ["UNVERIFIED", "VERIFIED", "VERIFIED_WITH_LIMITATIONS", "CONTRADICTED", "STALE", "MISCLASSIFIED", "INSUFFICIENT_SOURCE"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "insights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["insight_id", "text", "supporting_claim_ids", "confidence"],
+        "properties": {
+          "insight_id": {"type": "string"},
+          "text": {"type": "string"},
+          "supporting_claim_ids": {"type": "array", "items": {"type": "string"}},
+          "contradicting_claim_ids": {"type": "array", "items": {"type": "string"}},
+          "confidence": {"enum": ["HIGH", "MEDIUM", "LOW"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "market_opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["opportunity_id", "title"],
+        "properties": {
+          "opportunity_id": {"type": "string"},
+          "title": {"type": "string"},
+          "type": {"type": ["string", "null"]},
+          "target_segment": {"type": ["string", "null"]},
+          "jtbd": {"type": ["string", "null"]},
+          "demand_claim_ids": {"type": "array", "items": {"type": "string"}},
+          "coverage_claim_ids": {"type": "array", "items": {"type": "string"}},
+          "entry_claim_ids": {"type": "array", "items": {"type": "string"}},
+          "contradicting_claim_ids": {"type": "array", "items": {"type": "string"}},
+          "confidence": {"type": ["string", "null"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "voc_records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["voc_id"],
+        "properties": {
+          "voc_id": {"type": "string"},
+          "type": {"type": ["string", "null"]},
+          "theme": {"type": ["string", "null"]},
+          "text_or_paraphrase": {"type": ["string", "null"]},
+          "claim_ids": {"type": "array", "items": {"type": "string"}},
+          "date": {"type": ["string", "null"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "voc_themes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["theme_id", "theme"],
+        "properties": {
+          "theme_id": {"type": "string"},
+          "theme": {"type": "string"},
+          "voc_ids": {"type": "array", "items": {"type": "string"}},
+          "claim_ids": {"type": "array", "items": {"type": "string"}},
+          "confidence": {"type": ["string", "null"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "strategic_signals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["signal_id", "observed_change"],
+        "properties": {
+          "signal_id": {"type": "string"},
+          "type": {"type": ["string", "null"]},
+          "observed_change": {"type": "string"},
+          "observed_at": {"type": ["string", "null"]},
+          "supporting_claim_ids": {"type": "array", "items": {"type": "string"}},
+          "confidence": {"type": ["string", "null"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "content_footprints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["content_footprint_id"],
+        "properties": {
+          "content_footprint_id": {"type": "string"},
+          "entity_id": {"type": ["string", "null"]},
+          "topics": {"type": "array", "items": {"type": "string"}},
+          "formats": {"type": "array", "items": {"type": "string"}},
+          "channels": {"type": "array", "items": {"type": "string"}},
+          "claim_ids": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "contradictions": {"type": "array", "items": {"type": "object"}},
+    "data_gaps": {"type": "array", "items": {"type": "object"}},
+    "integrity_status": {"enum": ["VERIFIED", "VERIFIED_WITH_GAPS", "DEGRADED", "INSUFFICIENT_EVIDENCE", "NOT_YET_VERIFIED"]},
+    "generated_at": {"type": ["string", "null"]},
+    "handoff": {
+      "type": "object",
+      "properties": {
+        "generated_at": {"type": ["string", "null"]},
+        "producer_version": {"type": ["string", "null"]},
+        "selection_notes": {"type": "array", "items": {"type": "string"}},
+        "omitted_artifact_types": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
