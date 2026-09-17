@@ -1,72 +1,70 @@
 # LeadUX Competitor Research
 
-**Open-source Agent Skills for evidence-based competitor and market intelligence.**
+**Open-source Agent Skills for evidence-based competitor, market, customer and content-performance intelligence.**
 
-Give this repository to an AI agent, ask it to study `SKILL.md` and `AGENTS.md`, and use the modular skills to run a structured competitor investigation instead of a generic SWOT summary.
+Give this repository to an AI agent, ask it to study `SKILL.md` and `AGENTS.md`, and use only the skills needed for the research objective.
 
 > **Core rule:** no source → no fact. Missing data → `UNKNOWN`, not invention.
 
 Built by **Viacheslav Bushmakin / LeadUX AI**.
 
-**Telegram:** [@leadux_ai](https://t.me/leadux_ai)  
-**Website:** [leaduxai.id](https://leaduxai.id/)
+---
+
+## v0.4.0 — Strategy Handoff + Content Performance Intelligence
+
+Version 0.4 turns the repository into the upstream evidence layer for LeadUX Content Strategist.
+
+New capabilities:
+
+- `strategy-handoff` — exports a verified evidence package without changing research semantics;
+- `content-performance-intelligence` — identifies observable content outliers relative to each account's own baseline;
+- content performance pattern schema;
+- explicit separation between `CONTENT_SIGNAL`, `AUDIENCE_RESPONSE`, `LEAD_SIGNAL`, and `BUSINESS_OUTCOME`;
+- normalized outlier patterns can be handed downstream to the strategist;
+- Founder/Brand Context is deliberately **not** invented here — it is a separate Strategist input.
+
+The system now supports:
+
+```text
+MARKET / COMPETITOR / CUSTOMER RESEARCH
+        ↓
+CONTENT PERFORMANCE INTELLIGENCE
+        ↓
+contradiction-check
+→ evidence-verification
+→ red-team
+→ synthesis
+        ↓
+strategy-handoff
+        ↓
+LeadUX Content Strategist
+```
 
 ---
 
-## v0.3.0 — Regional Intelligence
+# What this repository investigates
 
-Version 0.3 adds a dedicated regional competitive-intelligence layer.
+Depending on the request:
 
-The system no longer treats a country as one homogeneous market when location is material. It can separate national, multi-regional, regional and local competitors; run independent discovery by region/city; compare observed pricing, positioning, VOC and GTM patterns; and test regional whitespace with explicit coverage controls.
-
-Key additions:
-
-- new [`regional-intelligence`](skills/regional-intelligence/SKILL.md) skill;
-- new [`frameworks/regional-intelligence.md`](frameworks/regional-intelligence.md);
-- new [`schemas/region.schema.json`](schemas/region.schema.json);
-- national vs regional/local discovery waves;
-- `NATIONAL / MULTI_REGIONAL / REGIONAL / LOCAL / ONLINE_ONLY` geographic roles;
-- separate registration, headquarters, physical presence and service coverage;
-- regional Tier A/B/C research prioritization;
-- regional pricing with sample-size/comparability rules;
-- regional VOC and GTM analysis;
-- regional whitespace + false-whitespace checks;
-- mandatory Regional Coverage Gate for deep country-level research when geography is material;
-- stronger Russia-specific regional research workflow.
-
-See [`CHANGELOG.md`](CHANGELOG.md).
-
----
-
-# What this repository is
-
-This is a modular research methodology for AI agents.
-
-It helps an agent investigate:
-
-- direct competitors;
-- indirect competitors;
-- substitutes;
-- DIY/manual alternatives;
-- adjacent solutions;
-- national, multi-regional, regional and local competitors;
+- direct and indirect competitors;
+- substitutes and DIY/manual alternatives;
+- national, regional and local competition;
 - positioning;
 - target segments and JTBD;
 - product/workflow differences;
 - pricing and packaging;
-- regional price differences when evidence supports them;
-- customer pains and objections;
+- customer pains, objections and desired outcomes;
 - Voice of Customer;
 - GTM and distribution;
-- regional channel patterns;
+- competitor content footprint;
+- **observable competitor/adjacent-creator content performance**;
 - strategic signals;
-- market whitespace;
-- regional whitespace;
+- market/regional whitespace;
 - contradictions;
 - evidence quality;
 - risks and counter-arguments.
 
-The intended reasoning chain is:
+Preferred reasoning chain:
 
 ```text
 SOURCE
@@ -80,116 +78,105 @@ STRATEGIC CONCLUSION
 RECOMMENDATION
 ```
 
-The agent should be able to show why it reached an important conclusion.
-
 ---
 
-# What this repository is NOT
+# Content Performance Intelligence
 
-It is not:
+`skills/content-performance-intelligence/SKILL.md` answers a different question from ordinary GTM analysis.
 
-- a one-shot mega-prompt;
-- a generic SWOT generator;
-- a tool that treats search ranking as market share;
-- a workflow that assumes Moscow/federal search results represent all of Russia;
-- a system that invents revenue, CAC, churn or customer counts;
-- a crawler designed to bypass CAPTCHA/paywalls/authentication;
-- a workflow that treats one bad review as a market-wide pain;
-- a workflow that declares a competitor/feature/channel absent after one failed search.
+GTM/content footprint asks:
 
----
+> What does this competitor publish and where?
 
-# Quick Start
+Content Performance Intelligence asks:
 
-Give your AI agent this repository:
+> Which pieces materially outperform that account's own normal level, does the mechanism repeat, and how strong is the evidence?
+
+Where comparable public data exists, the skill uses an account-local baseline rather than absolute vanity numbers.
+
+Example:
 
 ```text
-https://github.com/cyberfightmg-spec/leadux-competitor-research
+Account A
+normal median = 1,500 views
+outlier = 18,000 views
+→ 12× baseline
+
+Account B
+normal median = 180,000 views
+post = 220,000 views
+→ 1.22× baseline
 ```
 
-Then ask:
+The first post may be a stronger performance signal despite having fewer absolute views.
+
+The skill distinguishes:
 
 ```text
-Изучи репозиторий:
-https://github.com/cyberfightmg-spec/leadux-competitor-research
-
-Сначала прочитай SKILL.md и AGENTS.md.
-Далее используй только нужные skills.
-
-Проведи глубокое исследование конкурентов в нише:
-[НИША]
-
-География:
-[СТРАНА]
-
-Если рынок зависит от региона/города, обязательно используй regional-intelligence:
-отдельно найди федеральных, региональных и локальных игроков,
-сравни цены, позиционирование, VOC и каналы по регионам,
-а также покажи покрытие и ограничения выборки.
-
-Не придумывай отсутствующие данные.
-Все существенные выводы подтверждай источниками.
-Классифицируй важные утверждения как
-FACT / ESTIMATE / HYPOTHESIS / ASSUMPTION / NOT_FOUND.
-
-Перед финальным выводом обязательно выполни:
-contradiction-check → evidence-verification → red-team.
+SINGLE_OUTLIER
+REPEATED_ACCOUNT_PATTERN
+CROSS_ACCOUNT_PATTERN
+FIRST_PARTY_CONFIRMED_PATTERN
 ```
 
-For Russia-focused research, use the ready prompt:
+And never silently converts platform engagement into business impact:
 
-[`prompts/deep-russia-research.md`](prompts/deep-russia-research.md)
+```text
+CONTENT_SIGNAL
+AUDIENCE_RESPONSE
+LEAD_SIGNAL
+BUSINESS_OUTCOME
+```
+
+Views are not leads. Comments are not revenue. Business outcomes require separate evidence.
 
 ---
 
-# How the agent should work
+# Strategy Handoff
+
+When research is intended for downstream content strategy, run:
 
 ```text
-User request
-    ↓
-Root SKILL.md
-    ↓
-Capability detection
-    ↓
-Geographic Source Pack
-    ↓
-research-planner
-    ↓
-competitor-discovery
-    ↓
-regional-intelligence (when material)
-    ↓
-competitor-profiling
-    ↓
-┌───────────────────────────────┐
-│ product-intelligence          │
-│ pricing-intelligence          │
-│ customer-research             │
-│ voice-of-customer             │
-│ gtm-intelligence              │
-│ strategic-signals             │
-└───────────────────────────────┘
-    ↓
-market-whitespace
-    ↓
 contradiction-check
-    ↓
-evidence-verification
-    ↓
-red-team
-    ↓
-Final evidence-backed report
+→ evidence-verification
+→ red-team
+→ synthesis
+→ strategy-handoff
 ```
 
-The system uses **progressive skill loading**. A narrow pricing task should not automatically run the full pipeline.
+The handoff can preserve:
+
+- claims and source lineage;
+- insights;
+- market opportunities;
+- VOC;
+- GTM/content footprints;
+- content-performance patterns;
+- strategic signals;
+- contradictions;
+- data gaps;
+- geography / segment / time qualifiers;
+- research integrity status.
+
+It does **not** decide:
+
+- founder positioning;
+- priority offers;
+- content pillars;
+- channel mix;
+- hooks;
+- cadence;
+- Creator briefs.
+
+Those belong to LeadUX Content Strategist, which combines this evidence with Founder/Brand Context and first-party performance.
 
 ---
 
 # Regional Intelligence
 
-Regional analysis is a separate research dimension, not just an address field.
+Regional analysis remains a first-class dimension when geography matters.
 
-For every serious competitor the system can distinguish:
+The system can distinguish:
 
 ```text
 registered_region
@@ -200,216 +187,79 @@ verified_regions
 national_coverage
 ```
 
-It also assigns a geographic role independently from competitor type:
+and classify:
 
 ```text
-DIRECT + NATIONAL
-DIRECT + REGIONAL
-INDIRECT + LOCAL
-SUBSTITUTE + ONLINE_ONLY
+NATIONAL
+MULTI_REGIONAL
+REGIONAL
+LOCAL
+ONLINE_ONLY
+UNKNOWN
 ```
 
-A deep country-level study in a location-sensitive market must not receive `VERIFIED` status when material regional competition was ignored.
+A deep country-level study in a location-sensitive market should not receive `VERIFIED` status when material regional competition was ignored.
 
-Regional comparisons may include, when supported by evidence:
+---
+
+# Quick Start
+
+Repository:
 
 ```text
-region
-research tier
-competitors discovered in checked sources
-Tier-A competitors
-observed price range / median + sample size
-positioning patterns
-customer themes
-channel patterns
-regional whitespace hypotheses
-coverage status
-material caveats
+https://github.com/cyberfightmg-spec/leadux-competitor-research
 ```
 
-Important: `competitors discovered` is not the same as the total competitor population.
-
----
-
-# Skills
-
-| Skill | What it does |
-|---|---|
-| [`research-planner`](skills/research-planner/SKILL.md) | Converts the request into questions, sources, geographic scope, skills, research waves and stop conditions |
-| [`competitor-discovery`](skills/competitor-discovery/SKILL.md) | Finds direct, indirect, substitute, DIY and adjacent competitors using national and regional discovery where material |
-| [`regional-intelligence`](skills/regional-intelligence/SKILL.md) | Maps national/regional/local competition, regional pricing, positioning, VOC, GTM and whitespace |
-| [`competitor-profiling`](skills/competitor-profiling/SKILL.md) | Builds standardized evidence-backed competitor profiles |
-| [`product-intelligence`](skills/product-intelligence/SKILL.md) | Compares workflows, capabilities, maturity and differentiation |
-| [`pricing-intelligence`](skills/pricing-intelligence/SKILL.md) | Captures current prices, packaging, value metrics and pricing gaps |
-| [`customer-research`](skills/customer-research/SKILL.md) | Extracts JTBD, pains, triggers, objections, outcomes and alternatives |
-| [`voice-of-customer`](skills/voice-of-customer/SKILL.md) | Mines real customer language, complaints, praise and switching reasons |
-| [`gtm-intelligence`](skills/gtm-intelligence/SKILL.md) | Maps observable acquisition, distribution, content and sales signals |
-| [`strategic-signals`](skills/strategic-signals/SKILL.md) | Detects pricing, product, hiring, positioning and market changes |
-| [`market-whitespace`](skills/market-whitespace/SKILL.md) | Tests underserved segments and gaps against demand and entry evidence |
-| [`contradiction-check`](skills/contradiction-check/SKILL.md) | Reconciles or preserves conflicting evidence |
-| [`evidence-verification`](skills/evidence-verification/SKILL.md) | Audits provenance, geography, scope, freshness, calculations and independence |
-| [`red-team`](skills/red-team/SKILL.md) | Tries to falsify the main thesis, including regional-bias and false-whitespace risks |
-| [`market-monitoring`](skills/market-monitoring/SKILL.md) | Defines watchlists, snapshot diffing and meaningful market events |
-
----
-
-# Shared Research Frameworks
-
-Start with:
-
-- [`frameworks/evidence-protocol.md`](frameworks/evidence-protocol.md)
-- [`frameworks/search-strategy.md`](frameworks/search-strategy.md)
-- [`frameworks/fallback-policy.md`](frameworks/fallback-policy.md)
-- [`frameworks/output-contract.md`](frameworks/output-contract.md)
-- [`frameworks/source-quality.md`](frameworks/source-quality.md)
-- [`frameworks/confidence-model.md`](frameworks/confidence-model.md)
-- [`frameworks/research-depth.md`](frameworks/research-depth.md)
-- [`frameworks/regional-intelligence.md`](frameworks/regional-intelligence.md)
-- [`frameworks/quality-gates.md`](frameworks/quality-gates.md)
-- [`frameworks/report-framework.md`](frameworks/report-framework.md)
-
----
-
-# Evidence classes
-
-Every material research statement should be distinguishable as:
+Example strategy-input request:
 
 ```text
-FACT
-ESTIMATE
-HYPOTHESIS
-ASSUMPTION
-NOT_FOUND
+Изучи SKILL.md и AGENTS.md.
+
+Проведи глубокое исследование рынка и конкурентов в нише:
+[НИША]
+
+География:
+[ГЕОГРАФИЯ]
+
+Цель исследования:
+подготовить доказательную базу для LeadUX Content Strategist.
+
+Помимо обычного competitor/VOC/GTM исследования,
+если публичные контент-метрики доступны и сопоставимы:
+- используй content-performance-intelligence;
+- найди публикации, которые являются аутлайерами относительно собственного baseline каждого аккаунта;
+- ищи повторяемые паттерны между несколькими аккаунтами;
+- отдельно классифицируй CONTENT_SIGNAL / AUDIENCE_RESPONSE / LEAD_SIGNAL / BUSINESS_OUTCOME;
+- не считай просмотры доказательством продаж.
+
+Не придумывай отсутствующие данные.
+Классифицируй утверждения как FACT / ESTIMATE / HYPOTHESIS / ASSUMPTION / NOT_FOUND.
+
+Перед передачей стратегу выполни:
+contradiction-check → evidence-verification → red-team → synthesis → strategy-handoff.
 ```
 
-A hypothesis must never silently become a fact in the final report.
+---
+
+# What this repository is NOT
+
+It is not:
+
+- a generic SWOT generator;
+- a one-shot mega-prompt;
+- a system that equates search visibility with market share;
+- a workflow that equates viral content with commercial success;
+- a workflow that invents revenue, CAC, churn, reach or conversion;
+- a system that copies competitor tactics into strategy;
+- a crawler designed to bypass access controls;
+- the Founder/Brand Context store;
+- the final Content Strategist or Creator.
 
 ---
 
-# Research in waves
+# Integrity statuses
 
-Production research normally uses multiple waves:
-
-```text
-WAVE 1 — broad national/category/JTBD discovery
-WAVE 2 — entity verification + classification
-WAVE 3 — regional/local discovery where material
-WAVE 4 — deep competitor analysis
-WAVE 5 — targeted gap closure + counter-searches
-```
-
-The agent stops based on **evidence saturation**, not because it reached an arbitrary source count.
-
----
-
-# Research depth
-
-### Quick
-
-Reconnaissance or narrow comparison.
-
-### Standard
-
-Normal evidence-backed competitor analysis.
-
-### Deep
-
-For market entry, product strategy, positioning, pricing, expansion and serious opportunity validation.
-
-Deep mode requires:
-
-```text
-contradiction-check
-→ evidence-verification
-→ red-team
-→ final synthesis
-```
-
-When geography is material, it also requires the **Regional Coverage Gate**.
-
----
-
-# Russia Source Pack 🇷🇺
-
-For research in Russia, the root router loads:
-
-[`source-packs/russia.md`](source-packs/russia.md)
-
-It covers national and regional source families, including official statistics/registries, official competitor sources, Yandex Maps / 2GIS, hh.ru, relevant marketplaces, public communities and domain-specific sources.
-
-For region-sensitive markets, Russia research uses:
-
-```text
-NATIONAL DISCOVERY
-+
-REGIONAL / CITY DISCOVERY
-+
-REGIONAL COVERAGE CHECK
-```
-
-Registration region must never be treated as proof that a company serves that region, and a Moscow/federal result set must never substitute for regional discovery.
-
----
-
-# Graceful fallback
-
-Optional integrations are accelerators, not requirements.
-
-The methodology can work with native web/search/browser capabilities. If available, external tools may improve coverage:
-
-- Crawl4AI;
-- GPT Researcher;
-- Firecrawl;
-- DataForSEO;
-- authorized social-data APIs.
-
-If a tool is unavailable:
-
-```text
-SKIP TOOL
-→ USE LEGAL FALLBACK SOURCE
-→ RECORD COVERAGE GAP IF MATERIAL
-→ CONTINUE RESEARCH
-```
-
-A tool failure must never be reported as “no market activity”.
-
----
-
-# Machine-readable schemas
-
-The repo includes:
-
-- [`source.schema.json`](schemas/source.schema.json)
-- [`claim.schema.json`](schemas/claim.schema.json)
-- [`insight.schema.json`](schemas/insight.schema.json)
-- [`competitor.schema.json`](schemas/competitor.schema.json)
-- [`region.schema.json`](schemas/region.schema.json)
-- [`opportunity.schema.json`](schemas/opportunity.schema.json)
-- [`research.schema.json`](schemas/research.schema.json)
-- [`report.schema.json`](schemas/report.schema.json)
-- [`skill-output.schema.json`](schemas/skill-output.schema.json)
-
----
-
-# Final quality gates
-
-Before a deep report is published, the system checks:
-
-- scope integrity;
-- competitor-set coverage;
-- regional coverage when material;
-- evidence provenance;
-- material numbers;
-- geographic scope match;
-- contradictions;
-- source independence;
-- verification results;
-- red-team findings;
-- unresolved data gaps;
-- recommendation traceability.
-
-Final report status must be one of:
+Full research ends with one of:
 
 ```text
 VERIFIED
@@ -418,51 +268,6 @@ DEGRADED
 INSUFFICIENT_EVIDENCE
 ```
 
----
+That status is preserved exactly in strategy handoff.
 
-# Security
-
-This public repository intentionally contains **no production secrets**.
-
-Never commit API keys, passwords, Telegram bot tokens, cookies/session tokens, customer credentials or private customer datasets.
-
-See [`SECURITY.md`](SECURITY.md).
-
----
-
-# Project direction
-
-```text
-Competitor Intelligence
-        ↓
-Market Intelligence
-        ↓
-AI Content Strategist
-        ↓
-Lead Discovery Agent
-        ↓
-Lead Intake / Qualification
-        ↓
-LeadUX OS
-```
-
-The same evidence graph can later feed content, lead discovery and qualification instead of forcing each agent to start research from zero.
-
----
-
-# LeadUX AI
-
-LeadUX AI builds practical AI automation and agent systems focused on business outcomes rather than AI for its own sake.
-
-Follow development, experiments and new agent skills:
-
-**Telegram:** [https://t.me/leadux_ai](https://t.me/leadux_ai)  
-**Website:** [https://leaduxai.id](https://leaduxai.id/)
-
-Created by **Viacheslav Bushmakin / LeadUX AI**.
-
----
-
-## License
-
-MIT — see [`LICENSE`](LICENSE).
+The goal is not to sound certain. The goal is to preserve exactly what is known, observed, estimated, hypothesized and still unknown.
